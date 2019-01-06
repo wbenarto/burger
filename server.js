@@ -1,7 +1,4 @@
 const express = require('express');
-const exphbs = require('express-handlebars');
-const mysql = require('mysql');
-
 
 const app = express();
 
@@ -12,8 +9,14 @@ const PORT = process.env.PORT || 8080
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// Establishing Handlebars as templating language
+const exphbs = require('express-handlebars');
+
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
+
+// Establishing mysql conncection
+const mysql = require('mysql');
 
 const connection = mysql.createConnection({
     host: "localhost",
@@ -31,18 +34,18 @@ connection.connect(function(err) {
 
 // Use Handlebars to render the main index.html page with the burgers in it.
 app.get("/", function(req, res) {
-    connection.query("SELECT * FROM movies;", function(err, data) {
+    connection.query("SELECT * FROM burgers;", function(err, data) {
         if (err) {
           return res.status(500).end();
         }
     
-        res.render("index", { movies: data });
+        res.render("index", { burger: data });
       });
 });
 
 // Create a new burger entry 
 app.post("", function(req, res) {
-    connection.query("INSERT INTO movies (movie) VALUES (?)", [req.body.movie], function(err, result) {
+    connection.query("INSERT INTO burgers (burger) VALUES (?)", [req.body.movie], function(err, result) {
         if (err) {
           return res.status(500).end();
         }
@@ -53,7 +56,10 @@ app.post("", function(req, res) {
       });
 });
 
+// Importing routes and giving access to it
+var routes = require('./controllers/burgers_controller');
 
+app.use('/', routes);
 
 // Start our server so that it can begin listening to client requests.
 app.listen(PORT, function() {
