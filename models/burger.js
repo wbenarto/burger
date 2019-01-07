@@ -1,15 +1,15 @@
 const orm = require('../config/orm');
 
-let burger = {
-    selectAll: function(){
+const burger = {
+    selectAll: () => {
+    
+    },
+
+    insertOne: () => {
 
     },
 
-    insertOne: function(){
-
-    },
-
-    updateOne: function(){
+    updateOne: () => {
         
     }
 }

@@ -5,8 +5,28 @@ const router = express.Router();
 const burger = require('../models/burger');
 
 // Create routes 
-router.get('/', function(req, res) {
-    burger.selectAll(function(data) {
+router.get('/', (req, res) => {
+    res.send("We connected")
+    // burger.selectAll((data) => {
+    //     let hbsObject = {
+    //         burgers: data
+    //     };
+
+    //     res.render('index', hbsObject)
+    // });
+});
+
+router.get('/burgers', (req, res) => {
+    
+});
+
+router.get('/menu', (req, res) => {
+
+});
+
+router.get('/api/burgers', (req, res) => {
+    burger.selectAll((data) => {
+        console.log(data)
         let hbsObject = {
             burgers: data
         };
@@ -14,7 +34,6 @@ router.get('/', function(req, res) {
         res.render('index', hbsObject)
     });
 });
-
 
 //Not today.... 
 

@@ -18,7 +18,7 @@ app.set("view engine", "handlebars");
 // Establishing mysql conncection
 const mysql = require('mysql');
 
-const connection = mysql.createConnection({
+const db = mysql.createConnection({
     host: "localhost",
     port: 3306,
     user: "root",
@@ -26,15 +26,15 @@ const connection = mysql.createConnection({
     database: "burgers_db"
 });
 
-connection.connect(function(err) {
+db.connect((err) => {
     if (err) throw err;
 
-    console.log("connected as id " + connection.threadId);
+    console.log("MySQLconnected as id " + db.threadId);
 });
 
 // Use Handlebars to render the main index.html page with the burgers in it.
-app.get("/", function(req, res) {
-    connection.query("SELECT * FROM burgers;", function(err, data) {
+app.get("/", (req, res) => {
+    db.query("SELECT * FROM burgers;", (err, data) => {
         if (err) {
           return res.status(500).end();
         }
@@ -44,8 +44,8 @@ app.get("/", function(req, res) {
 });
 
 // Create a new burger entry 
-app.post("", function(req, res) {
-    connection.query("INSERT INTO burgers (burger) VALUES (?)", [req.body.movie], function(err, result) {
+app.post("", (req, res) => {
+    db.query("INSERT INTO burgers (burger) VALUES (?)", [req.body.movie], (err, result) => {
         if (err) {
           return res.status(500).end();
         }
@@ -62,6 +62,6 @@ var routes = require('./controllers/burgers_controller');
 app.use('/', routes);
 
 // Start our server so that it can begin listening to client requests.
-app.listen(PORT, function() {
+app.listen(PORT, () => {
     console.log("Server listening on: http://localhost:" + PORT);
 })
