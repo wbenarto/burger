@@ -32,30 +32,6 @@ db.connect((err) => {
     console.log("MySQLconnected as id " + db.threadId);
 });
 
-// Use Handlebars to render the main index.html page with the burgers in it.
-app.get("/", (req, res) => {
-    db.query("SELECT * FROM burgers;", (err, data) => {
-        if (err) {
-          return res.status(500).end();
-        }
-    
-        res.render("index", { burger: data });
-      });
-});
-
-// Create a new burger entry 
-app.post("", (req, res) => {
-    db.query("INSERT INTO burgers (burger) VALUES (?)", [req.body.movie], (err, result) => {
-        if (err) {
-          return res.status(500).end();
-        }
-    
-        // Send back the ID of the new movie
-        res.json({ id: result.insertId });
-        console.log({ id: result.insertId });
-      });
-});
-
 // Importing routes and giving access to it
 var routes = require('./controllers/burgers_controller');
 
