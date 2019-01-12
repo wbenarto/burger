@@ -1,13 +1,15 @@
-<h1>Eat-Da-Burger!</h1>
+<h1>MickeyDeys Burgers!!</h1>
 
 <main>
   <div class="container">
     <div class="row">
       <div class="col s6">
+        <h2>Your order is ready!</h2>
         {{#each burgers}}
           {{#unless this.devoured}}
             <div>
-              <form action="/burgers/{{this.id}}?_method=PUT" method="POST">
+              <form action="/{{this.id}}?_method=PUT" method="POST">
+                <input type="hidden" name="devoured" value="true">
                 <button type="submit" class='burgerAvailable'> {{this.burger_name}}</button>
               </form>
             </div>
@@ -16,6 +18,7 @@
       </div>
 
       <div class="col s6">
+        <h2>Past orders:</h2>
         {{#each burgers}}
           {{#if this.devoured}}
             <div class='burgerEaten'>
@@ -30,11 +33,11 @@
   </div>
 </main>
 
-<h2>Add A Burger Option</h2>
+<h2>Create your own burger</h2>
 
 <div class="row">
   <div class="col s12">
-    <form action="/burgers" method="POST">
+    <form action="/" method="POST">
       <input type="text" id="name" name="burger_name" placeholder="Uber Delicious Burger">
       <button type="submit" class="addBurgerButton">Add The Burger</button>
     </form>

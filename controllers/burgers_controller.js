@@ -16,43 +16,21 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/burgers', (req, res) => {
-    
-});
-
-router.get('/menu', (req, res) => {
-
-});
-
-// router.get('/burgers', (req, res) => {
-//     burger.selectAll((data) => {
-//         console.log(data)
-//         let hbsObject = {
-//             burgers: data
-//         };
-
-//         res.send(res)
-//     });
-// });
-
 // Create a new burger entry 
-router.post('/burgers', (req, res) => {
+router.post('/', (req, res) => {
     burger.insertOne([
-            'burger_name'
+            'burger_name', 'devoured'
         ], [
-            req.body.burger_name
+            req.body.burger_name, req.body.devoured
         ], 
         (data) => {
             res.redirect('/');
         });
 });
-    
-router.put('/burgers/:id', (req, res) => {
-    let condition = 'id = ' + req.params.id;
-
-    burger.updateOne({
-        devoured: true
-    }, condition, (data) => {
+//UPDATE BURGERS SET {devoured: true} WHERE {id: burgerID}
+//UPDATE BURGERS SET objColVals WHERE condition
+router.post('/:id', (req, res) => {
+    burger.updateOne(req.params.id, (data) => {
         res.redirect('/');
     });
 });

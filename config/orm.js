@@ -13,15 +13,17 @@ const printQuestionMarks = (num) => {
 };
 
 const objToSql = (ob) => {
-    let arr = [];
+    const arr = [];
 
     for (var key in ob) {
-        arr.push(key + "=" + ob[key]);
+        if (Object.hasOwnProperty.call(ob, key)) {
+            arr.push(key + "=" + ob[key]);
+        };
     };
 
     return arr.toString();
-}
- 
+};
+
 const orm = {
     // Function that returns all table entries
     selectAll: (tableInput, cb) => {
@@ -56,22 +58,31 @@ const orm = {
         });
     },
 
-    // Function that updates a single table entry
-    updateOne: (table, objColVals, condition, cb) => {
-        const queryString = "UPDATE " + table;
-
-        queryString += " SET ";
-        queryString += objToSql(objColVals);
-        queryString += " WHERE ";
-        queryString += condition;
-        console.log(queryString);
-        
-        // Database query
-        connection.query(queryString, (err, result) => {
+    updateOne: (burgerID, cb) => {
+        connection.query('UPDATE BURGERS SET ? WHERE ?', [{devoured: true}, {id: burgerID}],
+        (err, result) => {
             if (err) throw err;
             cb(result);
-        });
+        })
     }
+    // Function that updates a single table entry
+    // updateOne: (table,objColVals, condition, cb) => {
+    //     // UPDATE burgers SET devoured =? WHERE condition =?
+    //     // UPDATE burgers SET [devoured = true] WHERE id = req.params.id
+    //     let queryString = "UPDATE " + table;
+
+    //     queryString += " SET ";
+    //     queryString += objToSql(objColVals);
+    //     queryString += " WHERE ";
+    //     queryString += condition;
+    //     console.log(queryString);
+        
+    //     // Database query
+    //     connection.query(queryString, (err, result) => {
+    //         if (err) throw err;
+    //         cb(result);
+    //     });
+    // }
 };
 
 module.exports = orm;

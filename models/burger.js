@@ -13,11 +13,16 @@ const burger = {
         });
     },
 
-    updateOne: (objColVals, condition, cb) => {
-        orm.updateOne('burgers', objColVals, condition, (res) => {
+    updateOne: (burger_id, cb) => {
+        orm.updateOne(burger_id, (res) => {
             cb(res);
-        });
+        })
     }
+    // updateOne: (objColVals, condition, cb) => {
+    //     orm.updateOne('burgers', objColVals, condition, (res) => {
+    //         cb(res);
+    //     });
+    // }
 };
 
 module.exports = burger;
